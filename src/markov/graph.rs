@@ -38,14 +38,14 @@ mod tests {
     fn hash_with_boxed_key_modifies_same_value() {
         let mut graph = Graph::default();
 
-        let mut edge = graph.new_edge("Start");
-        edge.towards(2, "Corridor");
-        edge.towards(1, "Corner");
+        graph.new_edge("Start")
+            .towards(2, "Corridor")
+            .towards(1, "Corner");
 
-        let mut edge = graph.new_edge("Corridor");
-        edge.towards(100, "Corridor");
-        edge.towards(200, "Corner");
-        edge.towards(5, "End");
+        graph.new_edge("Corridor")
+            .towards(100, "Corridor")
+            .towards(200, "Corner")
+            .towards(5, "End");
 
         let mut edge = graph.new_edge("Corner");
         edge.towards(1, "Corridor");
@@ -53,7 +53,7 @@ mod tests {
         let mut traversal = graph.new_traversal("Start", || {
             let cur = std::time::UNIX_EPOCH.elapsed()
                 .unwrap().as_nanos();
-            let val = (cur as f64 % 100000.0 ) / (100000 as f64);
+            let val = (cur as f64 % 100000.0) / (100000 as f64);
             println!("{}", val);
             val as f32
         });
